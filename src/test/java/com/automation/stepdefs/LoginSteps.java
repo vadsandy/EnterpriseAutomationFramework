@@ -84,4 +84,17 @@ public class LoginSteps {
         Assert.assertTrue(actualGreeting.contains("Welcome"),
                 "The welcome message container failed to load on the dashboard.");
     }
+
+    @When("I intentionally interact with a non-existent element")
+    public void i_intentionally_interact_with_a_non_existent_element() {
+        // We use standard Selenium here so it instantly throws a NoSuchElementException
+        org.openqa.selenium.WebElement fakeElement = com.automation.core.DriverManager.getDriver().findElement(org.openqa.selenium.By.id("this-id-does-not-exist"));
+        fakeElement.click();
+    }
+
+    @Then("the test should fail")
+    public void the_test_should_fail() {
+        Assert.assertTrue(true);
+    }
+
 }
