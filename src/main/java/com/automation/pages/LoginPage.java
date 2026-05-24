@@ -1,38 +1,27 @@
 package com.automation.pages;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
+import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage{
-    @FindBy(name = "username")
-    private WebElement txtUsername;
 
-    @FindBy(name = "password")
-    private WebElement txtPassword;
+    // Modern 'By' locators instead of PageFactory
+    private By textUsername = By.name("username");
+    private By textPassword = By.name("password");
+    private By btnLogin = By.xpath("//input[@value = 'Log In']");
 
-    @FindBy(xpath = "//input[@value='Log In']")
-    private WebElement btnLogin;
+    // Locator to verify successful login
+    private By lblWelcomeMessage = By.className("smallText");
 
-    // A list of web elements to demonstrate Java Streams
-    @FindBy(css = "#headerPanel ul.leftmenu li a")
-    private List<WebElement> leftMenuLinks;
 
     public void login(String username, String password) {
-        action.type(txtUsername, username,  "Username input field");
-        action.type(txtPassword, password, "Password input field");
-        action.click(btnLogin, "Login Button");
+        action.type(textUsername, username, "Username input field");
+        action.type(textPassword, password, "Password input field");
+        action.click(btnLogin, "Log In button");
+
     }
 
-    public void clickMenuLink(String linkText){
-        // Using Java Streams to find the matching element instead of a for-loop
-        WebElement targetLink = leftMenuLinks.stream()
-                .filter(link -> link.getText().trim().equalsIgnoreCase(linkText))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Menu link '" + linkText + "' was not found on the page."));
-
-        action.click(targetLink, linkText+" menu link");
+    public String getWelcomeMessage(){
+        return action.waitForVisibility(lblWelcomeMessage, "Welcome Message").getText();
     }
 
 }

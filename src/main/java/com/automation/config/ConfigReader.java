@@ -26,4 +26,29 @@ public class ConfigReader {
         return properties.getProperty(env.toLowerCase()+ ".url");
     }
 
+    // NEW CHANGE: Added method to fetch DB URL
+    public static String getDbUrl() {
+        return properties.getProperty("db.url");
+    }
+
+    // NEW CHANGE: Added method to fetch DB Username
+    public static String getDbUser() {
+        return properties.getProperty("db.user");
+    }
+
+    // NEW CHANGE: Added method to fetch DB Password
+    public static String getDbPassword() {
+        return properties.getProperty("db.password");
+    }
+
+    // NEW CHANGE: Fetch execution target (local vs remote)
+    public static String getExecutionTarget() {
+        return System.getProperty("execution.target", properties.getProperty("execution.target"));
+    }
+
+    // NEW CHANGE: Fetch the Selenium Grid URL
+    public static String getGridUrl() {
+        return System.getProperty("grid.url", properties.getProperty("grid.url"));
+    }
+
 }

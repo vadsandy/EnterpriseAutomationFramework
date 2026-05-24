@@ -14,6 +14,6 @@ public class BasePage {
         this.action = new ElementActions();
 
         // Initializes all @FindBy annotations in child classes
-        PageFactory.initElements(driver, this);
+        // PageFactory.initElements(driver, this); : Removing this as pagefactory is not required to avoid staleElementException
     }
 }
