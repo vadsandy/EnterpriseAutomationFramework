@@ -13,23 +13,27 @@ import java.io.ByteArrayInputStream;
 public class Hooks {
 
     @Before
-    public void setup() {
-        DriverManager.initDriver();
+    public void setup(Scenario scenario) {
+        // NEW CHANGE: Skip browser setup if it's a standalone API test case
+        if (!scenario.getSourceTagNames().contains("@API")) {
+            DriverManager.initDriver();
+        }
     }
 
     @After
     public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
-            try {
-                TakesScreenshot screenshotDriver = (TakesScreenshot) DriverManager.getDriver();
-                byte[] screenshot = screenshotDriver.getScreenshotAs(OutputType.BYTES);
-                // NEW CHANGE: Attach screenshot natively to Allure
-                Allure.addAttachment("Failure Screenshot - " + scenario.getName(), new ByteArrayInputStream(screenshot));
-            } catch (Exception e) {
-                System.err.println("Failed to capture screenshot: " + e.getMessage());
+        // NEW CHANGE: Skip browser teardown and screenshotting if it's an API test case
+        if (!scenario.getSourceTagNames().contains("@API")) {
+            if (scenario.isFailed()) {
+                try {
+                    TakesScreenshot screenshotDriver = (TakesScreenshot) DriverManager.getDriver();
+                    byte[] screenshot = screenshotDriver.getScreenshotAs(OutputType.BYTES);
+                    Allure.addAttachment("Failure Screenshot - " + scenario.getName(), new ByteArrayInputStream(screenshot));
+                } catch (Exception e) {
+                    System.err.println("Failed to capture screenshot: " + e.getMessage());
+                }
             }
+            DriverManager.quitDriver();
         }
-
-        DriverManager.quitDriver();
     }
 }

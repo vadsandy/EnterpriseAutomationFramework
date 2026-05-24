@@ -1,4 +1,4 @@
-package com.automation.stepdefs;
+package com.automation.stepdefs.ui;
 
 import com.automation.context.TestContext;
 import com.automation.pages.AccountsOverviewPage;

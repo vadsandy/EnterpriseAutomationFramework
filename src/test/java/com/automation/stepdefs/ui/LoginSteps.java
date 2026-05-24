@@ -1,4 +1,4 @@
-package com.automation.stepdefs;
+package com.automation.stepdefs.ui;
 
 import com.automation.config.ConfigReader;
 import com.automation.context.TestContext;
