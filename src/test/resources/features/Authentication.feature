@@ -16,3 +16,10 @@ Feature: Authentication and Data Fetching
   Scenario: Login using SQL database test data
     Given I navigate to the ParaBank login page
     When I fetch credentials from the database for role "Admin" and login
+
+
+  @Smoke @IntentionalFailure
+  Scenario: Intentional failure to test Jenkins Retry logic
+    Given I navigate to the ParaBank login page
+    When I intentionally interact with a non-existent element
+    Then the test should fail
